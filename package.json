@@ -14,4 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/G07cha/advent-of-code.git"
   },
+  "devDependencies": {
+    "typescript": "^4.9.3"
+  }
 }
