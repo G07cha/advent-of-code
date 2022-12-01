@@ -5,7 +5,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "execute": "node ./shared/scripts/execute-solution.js",
+    "test": "node --test",
+    "test:watch": "node --watch --test"
   },
   "engines": {
     "node": ">=19.2.0"
