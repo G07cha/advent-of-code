@@ -8,7 +8,7 @@
     "format": "prettier --write ."
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=19.2.0"
   },
   "repository": {
     "type": "git",
