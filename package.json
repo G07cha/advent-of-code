@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "format": "prettier --write .",
+    "format": "prettier -c .prettierrc --write .",
     "execute": "node ./shared/scripts/execute-solution.js",
     "test": "node --test",
     "test:watch": "node --watch --test"
