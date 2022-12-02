@@ -42,19 +42,21 @@ module.exports = class Solution {
   partTwo() {
     return this.rounds
       .map(([opponentMove, outcome]) => {
-        const opponentMoveIndex = opponentMove.charCodeAt(0) - this.opponentOffset - 1;
+        const opponentMoveIndex =
+          opponentMove.charCodeAt(0) - this.opponentOffset - 1;
 
         switch (outcome) {
           case "X":
             return (
-              this.shapeScores.atCircular(opponentMoveIndex + 2) + this.loseBonus
+              this.shapeScores.atCircular(opponentMoveIndex + 2) +
+              this.loseBonus
             );
           case "Y":
-            return (
-              this.shapeScores[opponentMoveIndex] + this.drawBonus
-            );
+            return this.shapeScores[opponentMoveIndex] + this.drawBonus;
           case "Z":
-            return this.shapeScores.atCircular(opponentMoveIndex + 1) + this.winBonus;
+            return (
+              this.shapeScores.atCircular(opponentMoveIndex + 1) + this.winBonus
+            );
         }
       })
       .reduce((acc = 0, roundScore) => acc + roundScore);

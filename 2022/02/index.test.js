@@ -6,7 +6,7 @@ const input = `A Y
 B X
 C Z`;
 
-describe("2022: Day 1", () => {
+describe("2022: Day 2", () => {
   it("passes first part", () => {
     assert.strictEqual(new SolutionClass(input).partOne(), 15);
   });
