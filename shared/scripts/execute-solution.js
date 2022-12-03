@@ -20,5 +20,7 @@ const SolutionClass = require(path.join(process.cwd(), solution, "index.js"));
 
 const solutionClass = new SolutionClass(input);
 
+console.time("Execution time");
 console.log("Part 1:", solutionClass.partOne());
 console.log("Part 2:", solutionClass.partTwo());
+console.timeEnd("Execution time");
