@@ -10,11 +10,13 @@ ttgJtRGJQctTZtZT
 CrZsJsPPZsGzwwsLwLmpwMDw`;
 
 describe("2022: Day 3", () => {
+  const solution = new SolutionClass(input);
+
   it("passes first part", () => {
-    assert.strictEqual(new SolutionClass(input).partOne(), 157);
+    assert.strictEqual(solution.partOne(), 157);
   });
 
   it("passes second part", () => {
-    assert.strictEqual(new SolutionClass(input).partTwo(), 70);
+    assert.strictEqual(solution.partTwo(), 70);
   });
 });

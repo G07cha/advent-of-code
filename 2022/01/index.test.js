@@ -19,11 +19,13 @@ const input = `
 10000`;
 
 describe("2022: Day 1", () => {
+  const solution = new SolutionClass(input);
+
   it("passes first part", () => {
-    assert.strictEqual(new SolutionClass(input).partOne(), 24000);
+    assert.strictEqual(solution.partOne(), 24000);
   });
 
   it("passes second part", () => {
-    assert.strictEqual(new SolutionClass(input).partTwo(), 45000);
+    assert.strictEqual(solution.partTwo(), 45000);
   });
 });

@@ -10,11 +10,13 @@ const input = `2-4,6-8
 2-6,4-8`;
 
 describe("2022: Day 4", () => {
+  const solution = new SolutionClass(input);
+
   it("passes first part", () => {
-    assert.strictEqual(new SolutionClass(input).partOne(), 2);
+    assert.strictEqual(solution.partOne(), 2);
   });
 
   it("passes second part", () => {
-    assert.strictEqual(new SolutionClass(input).partTwo(), 4);
+    assert.strictEqual(solution.partTwo(), 4);
   });
 });

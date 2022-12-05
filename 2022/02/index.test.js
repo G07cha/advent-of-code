@@ -7,11 +7,13 @@ B X
 C Z`;
 
 describe("2022: Day 2", () => {
+  const solution = new SolutionClass(input);
+
   it("passes first part", () => {
-    assert.strictEqual(new SolutionClass(input).partOne(), 15);
+    assert.strictEqual(solution.partOne(), 15);
   });
 
   it("passes second part", () => {
-    assert.strictEqual(new SolutionClass(input).partTwo(), 12);
+    assert.strictEqual(solution.partTwo(), 12);
   });
 });
