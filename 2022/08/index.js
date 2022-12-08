@@ -1,3 +1,14 @@
+/**
+ * @param {any[]} array
+ * @param {(value: any, index: number, obj: any[]) => unknown} comparator
+ * @param {any} defaultValue
+ */
+function findIndexOr(array, comparator, defaultValue) {
+  const index = array.findIndex(comparator);
+
+  return index === -1 ? defaultValue : index;
+}
+
 module.exports = class Solution {
   /**
    * @param {string} input
@@ -8,90 +19,81 @@ module.exports = class Solution {
       .map((row) => row.split("").map((cell) => parseInt(cell, 10)));
   }
 
-  partOne() {
-    let numVisibleTrees =
-      (this.forest.length - 1 + this.forest[0].length - 1) * 2;
+  partOne = () =>
+    this.forest.reduce(
+      (acc, line, lineIndex) =>
+        line.reduce((sum, currentTree, cellIndex) => {
+          const leftEdgeBlocked = this.forest[lineIndex]
+            .slice(0, cellIndex)
+            .some((tree) => tree >= currentTree);
 
-    for (let i = 1; i < this.forest.length - 1; i++) {
-      for (let j = 1; j < this.forest[i].length - 1; j++) {
-        let blockedEdges = 0;
-        for (let k = 0; k < this.forest.length; k++) {
-          if (k !== i) {
-            if (this.forest[k][j] >= this.forest[i][j] && k < i) {
-              blockedEdges++;
-              k = i;
-            } else if (this.forest[k][j] >= this.forest[i][j]) {
-              blockedEdges++;
-              break;
-            }
+          const rightEdgeBlocked = this.forest[lineIndex]
+            .slice(cellIndex + 1, this.forest[lineIndex].length)
+            .some((tree) => tree >= currentTree);
+
+          const bottomEdgeBlocked = this.forest
+            .slice(lineIndex + 1)
+            .some((row) => row[cellIndex] >= currentTree);
+
+          const topEdgeBlocked = this.forest
+            .slice(0, lineIndex)
+            .some((row) => row[cellIndex] >= currentTree);
+
+          if (
+            leftEdgeBlocked &&
+            rightEdgeBlocked &&
+            bottomEdgeBlocked &&
+            topEdgeBlocked
+          ) {
+            return sum;
           }
-        }
 
-        for (let l = 0; l < this.forest[i].length; l++) {
-          if (l !== j) {
-            if (this.forest[i][l] >= this.forest[i][j] && l < j) {
-              blockedEdges++;
-              l = j;
-            } else if (this.forest[i][l] >= this.forest[i][j]) {
-              blockedEdges++;
-              break;
-            }
-          }
-        }
+          return sum + 1;
+        }, acc),
+      0
+    );
 
-        if (blockedEdges < 4) {
-          numVisibleTrees++;
-        }
-      }
-    }
+  partTwo = () =>
+    this.forest
+      .reduce(
+        (acc, line, lineIndex) =>
+          line.reduce((scores, currentTree, cellIndex) => {
+            let scoreLeft = findIndexOr(
+              this.forest[lineIndex].slice(0, cellIndex).reverse(),
+              (value) => value >= currentTree,
+              cellIndex - 1
+            );
 
-    return numVisibleTrees;
-  }
+            let scoreRight = findIndexOr(
+              this.forest[lineIndex].slice(
+                cellIndex + 1,
+                this.forest[lineIndex].length
+              ),
+              (value) => value >= currentTree,
+              line.length - 1 - cellIndex - 1
+            );
 
-  partTwo() {
-    const scores = [];
-    for (let i = 0; i < this.forest.length; i++) {
-      for (let j = 0; j < this.forest[i].length; j++) {
-        const currentTree = this.forest[i][j];
-        let scoreLeft = this.forest[i]
-          .slice(0, j)
-          .reverse()
-          .findIndex((value) => value >= currentTree);
-        if (scoreLeft === -1) {
-          scoreLeft = j;
-        } else {
-          scoreLeft++;
-        }
+            let scoreBottom = findIndexOr(
+              this.forest.slice(lineIndex + 1),
+              (row) => row[cellIndex] >= currentTree,
+              this.forest.length - 1 - lineIndex - 1
+            );
 
-        let scoreRight = this.forest[i]
-          .slice(j + 1)
-          .findIndex((value) => value >= currentTree);
-        if (scoreRight === -1) {
-          scoreRight = this.forest[i].length - j - 1;
-        } else {
-          scoreRight++;
-        }
+            let scoreTop = findIndexOr(
+              this.forest.slice(0, lineIndex).reverse(),
+              (row) => row[cellIndex] >= currentTree,
+              lineIndex - 1
+            );
 
-        let scoreTop = 0;
-        for (let k = i - 1; k >= 0; k--) {
-          scoreTop++;
-          if (this.forest[k][j] >= currentTree) {
-            break;
-          }
-        }
-
-        let scoreBottom = 0;
-        for (let k = i + 1; k < this.forest.length; k++) {
-          scoreBottom++;
-          if (this.forest[k][j] >= currentTree) {
-            break;
-          }
-        }
-
-        scores.push(scoreLeft * scoreRight * scoreTop * scoreBottom);
-      }
-    }
-
-    return scores.sort((a, b) => b - a)[0];
-  }
+            return [
+              ...scores,
+              (scoreLeft + 1) *
+                (scoreRight + 1) *
+                (scoreBottom + 1) *
+                (scoreTop + 1),
+            ];
+          }, acc),
+        []
+      )
+      .sort((a, b) => b - a)[0];
 };
